@@ -1,6 +1,6 @@
-import { AppContext } from 'next/app';
 import { getRange } from '@utils/index';
 import { Dates } from '@components/Dates';
+import { GetServerSideProps } from 'next';
 
 const SelectDate = () => {
   const range = getRange(5);
@@ -12,10 +12,10 @@ const SelectDate = () => {
   );
 };
 
-export async function getServerSideProps(context: AppContext) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {},
   };
-}
+};
 
 export default SelectDate;
