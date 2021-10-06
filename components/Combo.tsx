@@ -38,7 +38,7 @@ export const Movie = (props: { movie: ExtendedEvent }) => {
           ))}
       </div>
       <div className="flex flex-col">
-        <div className="text-center">Koniec</div>
+        <div className="text-center">End</div>
         <div className="bg-green-300 p-3 rounded shadow-md">
           <div>{format(movie.endAtWithCommercial, 'HH:mm')}</div>
         </div>
