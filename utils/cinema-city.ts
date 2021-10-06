@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
 import {
-  format,
-  parseISO,
   add,
   compareAsc,
   differenceInMinutes,
+  format,
+  parseISO,
 } from 'date-fns';
 
 export const COMMERCIAL_BREAK = 30;
@@ -60,7 +60,7 @@ export type FilmPair = {
   secondMovie: ExtendedEvent;
 };
 
-export const cinamas = [
+export const cinemas = [
   { id: '1088', name: 'Bielsko-Biała' },
   { id: '1086', name: 'Bydgoszcz' },
   { id: '1092', name: 'Bytom' },
@@ -109,21 +109,17 @@ export const getMovies = async (
   return (await response.json()) as CinemaCityResponse;
 };
 
-export const generateCombos = (
-  data: CinemaCityResponse,
-  commercial_break: number = COMMERCIAL_BREAK
+export const extendEvents = (
+  films: CinemaCityFilm[],
+  events: CinemaCityEvent[]
 ): ExtendedEvent[] => {
-  const {
-    body: { films, events },
-  } = data;
-
-  const extendedEvents: ExtendedEvent[] = events.map((event) => {
+  return events.map((event) => {
     const startAt = parseISO(event.eventDateTime);
     const film = films.find((film) => film.id === event.filmId)!;
     const movieLength = film.length;
     const endAt = add(startAt, { minutes: movieLength });
-    const endAtWithCommercial = add(endAt, { minutes: commercial_break });
-    const startAtWithCommercial = add(startAt, { minutes: commercial_break });
+    const endAtWithCommercial = add(endAt, { minutes: COMMERCIAL_BREAK });
+    const startAtWithCommercial = add(startAt, { minutes: COMMERCIAL_BREAK });
 
     return {
       ...event,
@@ -134,8 +130,17 @@ export const generateCombos = (
       film,
     };
   });
+};
 
-  return extendedEvents;
+export const generateCombos = (
+  data: CinemaCityResponse,
+  commercial_break: number = COMMERCIAL_BREAK
+): ExtendedEvent[] => {
+  const {
+    body: { films, events },
+  } = data;
+
+  return extendEvents(films, events);
 };
 
 export const findCombos = (

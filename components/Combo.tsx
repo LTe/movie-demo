@@ -1,12 +1,11 @@
 import { ExtendedEvent } from '@utils/cinema-city';
-import { format, differenceInMinutes } from 'date-fns';
-import { LinkIcon } from '@heroicons/react/solid';
-import { ShareIcon } from '@heroicons/react/solid';
+import { differenceInMinutes, format } from 'date-fns';
+import { LinkIcon, ShareIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const Movie = (props: { movie: ExtendedEvent }) => {
+export const Movie = (props: { movie: ExtendedEvent }) => {
   const { movie } = props;
   return (
     <div className="flex items-center gap-2">
